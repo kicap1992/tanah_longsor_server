@@ -6,22 +6,23 @@ const io_sock = require("socket.io-client");
 const socket = io_sock(`https://tanah-longosor-be.herokuapp.com/`);
 
 
+function send_notif(message, id, status, lat, lng) {
+  // console.log(lat, "ini lat");
+  // console.log(lng , "ini lng");
+  console.log("disini sebelum send notif")
+  socket.emit('notif_to_phone', {
+    message: message,
+    id: id,
+    status: status,
+    lat: lat,
+    lng: lng
+  })
+}
 
 
 async function update_device_data(device_id, lat, lng, status) {
   // console.log("disini update device data")
-  function send_notif(message, id, status, lat, lng) {
-    // console.log(lat, "ini lat");
-    // console.log(lng , "ini lng");
-    console.log("disini sebelum send notif")
-    socket.emit('notif_to_phone', {
-      message: message,
-      id: id,
-      status: status,
-      lat: lat,
-      lng: lng
-    })
-  }
+
   const device = await deviceModel.findOne({ _id: device_id });
   let statusnya, message;
   if (lat != '' && lng != '') {
