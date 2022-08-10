@@ -69,7 +69,9 @@ async function update_device_data(device_id, lat, lng, status) {
 
   }
   cek_data_notif = await notificationModel.findOne({ device_id: device_id });
+  console.log("disini ada kah1")
   if (!cek_data_notif) {
+    console.log("disini ada kah2")
     // insert data notification
     if (statusnya != "Normal") {
       send_notif(message, device_id.id, statusnya, device_id.lat, device_id.lng);
@@ -81,6 +83,7 @@ async function update_device_data(device_id, lat, lng, status) {
     })
     await new_notif.save();
   } else {
+    console.log("disini ada kah3")
     if (cek_data_notif.status != statusnya) {
       // update data notification
       await notificationModel.updateOne({ id: device_id.id }, { status: statusnya });
