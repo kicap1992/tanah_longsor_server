@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
     });
   })
   socket.on('notif_to_phone', (_) => {
-    console.log(_ , " ini sebelum broadcast")
+    console.log(" ini sebelum broadcast")
     socket.broadcast.emit('notif_to_phone', {
       message: _.message,
       id: _.id,

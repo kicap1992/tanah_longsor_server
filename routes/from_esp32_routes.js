@@ -3,16 +3,17 @@ const router = express.Router();
 require('dotenv/config');
 const { deviceModel, newDeviceModel, notificationModel } = require('../models/device_model');
 const io_sock = require("socket.io-client");
-const socket = io_sock(`https://tanah-longosor-be.herokuapp.com`);
+const socket = io_sock(`https://tanah-longosor-be.herokuapp.com/`);
 
 
 
 
 async function update_device_data(device_id, lat, lng, status) {
-  console.log("disini update device data")
+  // console.log("disini update device data")
   function send_notif(message, id, status, lat, lng) {
     // console.log(lat, "ini lat");
     // console.log(lng , "ini lng");
+    console.log("disini sebelum send notif")
     socket.emit('notif_to_phone', {
       message: message,
       id: id,
