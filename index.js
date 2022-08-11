@@ -67,6 +67,7 @@ io.on('connection', (socket) => {
   console.log('socket connected', userId);
 
   socket.on('reload_calibation', (_) => {
+    console.log("sini reload calibation")
     socket.broadcast.emit('reload_calibation', {
       message: 'reload_calibation'
     });

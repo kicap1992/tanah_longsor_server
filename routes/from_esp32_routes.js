@@ -4,6 +4,7 @@ require('dotenv/config');
 const { deviceModel, newDeviceModel, notificationModel } = require('../models/device_model');
 const io_sock = require("socket.io-client");
 const socket = io_sock(`https://tanah-longosor-be.herokuapp.com/`);
+// const socket = io_sock(`http://192.168.43.125:3004/`);
 
 
 function send_notif(message, id, status, lat, lng) {
@@ -69,9 +70,9 @@ async function update_device_data(device_id, lat, lng, status) {
 
   }
   cek_data_notif = await notificationModel.findOne({ device_id: device_id });
-  console.log("disini ada kah1")
+  // console.log("disini ada kah1")
   if (!cek_data_notif) {
-    console.log("disini ada kah2")
+    // console.log("disini ada kah2")
     // insert data notification
     if (statusnya != "Normal") {
       send_notif(message, device_id.id, statusnya, device_id.lat, device_id.lng);
@@ -83,7 +84,7 @@ async function update_device_data(device_id, lat, lng, status) {
     })
     await new_notif.save();
   } else {
-    console.log("disini ada kah3")
+    // console.log("disini ada kah3")
     if (cek_data_notif.status != statusnya) {
       // update data notification
       await notificationModel.updateOne({ id: device_id.id }, { status: statusnya });
@@ -146,19 +147,20 @@ router.post('/', async (req, res) => {
     } else {
       // console.log("di sini dia");
       if (cek_device_db.status === 'calibration') {
-        // console.log("sini calibrate")
+        console.log("sini calibrate")
         const lat = latitude;
         const lng = longitude;
         if (lat != '' && lng != '') {
 
           // update device data
-          await deviceModel.findOneAndUpdate({ _id: id }, { $set: { lat: latitude, lng: longitude } });
+          await deviceModel.findOneAndUpdate({ _id: id }, { $set: { lat: lat, lng: lng } });
 
           await update_device_data(cek_device_db, lat, lng, soilMoistureValue);
           socket.emit('reload_calibation');
+          console.log("sini calibrate aman")
           return res.status(200).send({ status: 'calibration right', message: "Success" });
         } else {
-
+          console.log("sini calibrate tidak aman")
           // if (check_device_db.lat != '' && check_device_db.lng != '') {
           return res.status(200).send({ status: 'calibration wrong', message: "Success" });
 
