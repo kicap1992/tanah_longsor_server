@@ -3,8 +3,8 @@ const router = express.Router();
 require('dotenv/config');
 const { deviceModel, newDeviceModel, notificationModel } = require('../models/device_model');
 const io_sock = require("socket.io-client");
-const socket = io_sock(`https://tanah-longosor-be.herokuapp.com/`);
-// const socket = io_sock(`http://192.168.43.125:3004/`);
+// const socket = io_sock(`https://tanah-longosor-be.herokuapp.com/`);
+const socket = io_sock(`http://192.168.43.125:3004/`);
 
 
 function send_notif(message, id, status, lat, lng) {
